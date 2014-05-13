@@ -39,4 +39,10 @@
             android:text="解密" />
     </LinearLayout>
 
+    <TextView
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:text="请在SD卡加密狗目录查看相应的加密解密文件"
+        android:textSize="25dp" />
+
 </LinearLayout>

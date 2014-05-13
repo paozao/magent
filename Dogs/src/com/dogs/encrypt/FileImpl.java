@@ -36,7 +36,7 @@ public class FileImpl implements IFile {
 			// 创建文件夹
 			createFloder(true);
 			// 创建文件
-			String filePath = Constant.SDPATH + Constant.PHONEPATH
+			String filePath = Constant.SDPATH +"/"+ Constant.PHONEPATH
 					+ Constant.FLODERADD + fileName;
 			OutputStream out = createFile(filePath);
 			disposeFile(in, out, true);
@@ -52,7 +52,7 @@ public class FileImpl implements IFile {
 		try {
 			// 创建文件夹
 			createFloder(false);
-			String filePath = Constant.SDPATH + Constant.PHONEPATH
+			String filePath = Constant.SDPATH +"/" + Constant.PHONEPATH
 					+ Constant.FLODERDLS + fileName;
 			OutputStream out = createFile(filePath);
 			disposeFile(in, out, false);
@@ -114,9 +114,9 @@ public class FileImpl implements IFile {
 	 * @param add
 	 */
 	private void createFloder(boolean add) {
-		String path = Constant.SDPATH + Constant.PHONEPATH + Constant.FLODERADD;
+		String path = Constant.SDPATH+"/" + Constant.PHONEPATH + Constant.FLODERADD;
 		if (!add) {
-			path = Constant.SDPATH + Constant.PHONEPATH + Constant.FLODERDLS;
+			path = Constant.SDPATH+"/" + Constant.PHONEPATH + Constant.FLODERDLS;
 		}
 		File file = new File(path);
 		if (!file.exists()) {

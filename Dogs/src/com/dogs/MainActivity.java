@@ -1,5 +1,7 @@
 package com.dogs;
 
+import java.io.File;
+import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 
@@ -16,6 +18,7 @@ import android.widget.Button;
 import android.widget.TextView;
 
 import com.dogs.base.BaseActivity;
+import com.dogs.fileactivity.FileActivity;
 import com.dogs.util.Encrypt;
 import com.dogs.util.Util;
 
@@ -33,6 +36,23 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
 		init();
+		getIntentParam();
+	}
+
+	private void getIntentParam() {
+		Intent result = getIntent();
+		String path = result.getStringExtra("path");
+		if (null != path) {
+			Log.e("path", path);
+			try {
+				in = new FileInputStream(new File(path));
+				String temp[] = path.split("/");
+				path = temp[temp.length - 1];
+				showFilePath.setText(path);
+			} catch (FileNotFoundException e) {
+				e.printStackTrace();
+			}
+		}
 	}
 
 	private final void init() {
@@ -48,13 +68,17 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	}
 
 	private void selFile() {
+		// Intent intent = new Intent();
+		// /* 开启Pictures画面Type设定为image */
+		// intent.setType("*/*");
+		// /* 使用Intent.ACTION_GET_CONTENT这个Action */
+		// intent.setAction(Intent.ACTION_GET_CONTENT);
+		// /* 取得相片后返回本画面 */
+		// startActivityForResult(intent, INTENTFILE);
+
 		Intent intent = new Intent();
-		/* 开启Pictures画面Type设定为image */
-		intent.setType("*/*");
-		/* 使用Intent.ACTION_GET_CONTENT这个Action */
-		intent.setAction(Intent.ACTION_GET_CONTENT);
-		/* 取得相片后返回本画面 */
-		startActivityForResult(intent, INTENTFILE);
+		intent.setClass(this, FileActivity.class);
+		startActivity(intent);
 	}
 
 	@Override
@@ -67,10 +91,10 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				ContentResolver cr = getContentResolver();
 				in = cr.openInputStream(uri);
 				String[] temp = uris.split("/");
-				String fileName = temp[temp.length-1];
+				String fileName = temp[temp.length - 1];
 				Log.e("file", fileName);
 				showFilePath.setText(fileName);
-			}catch (FileNotFoundException e) {
+			} catch (FileNotFoundException e) {
 				e.printStackTrace();
 			}
 		}
@@ -80,15 +104,14 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 	@Override
 	public void onClick(View v) {
 		if (v == selFile) {
-			Toast("sel");
 			selFile();
 		} else if (v == ads) {
 			if (Util.isEmpty(showFilePath.getText().toString())) {
 				Toast("请先选择文件");
 				return;
 			}
-			Dialog progressDialog = ProgressDialog.show(this, null,"正在加密...");
-			Toast(Encrypt.FileAdd(in,showFilePath.getText().toString()));
+			Dialog progressDialog = ProgressDialog.show(this, null, "正在加密...");
+			Toast(Encrypt.FileAdd(in, showFilePath.getText().toString()));
 			progressDialog.hide();
 			showFilePath.setText("");
 		} else if (v == dls) {
@@ -96,8 +119,8 @@ public class MainActivity extends BaseActivity implements OnClickListener {
 				Toast("请先选择文件");
 				return;
 			}
-			Dialog progressDialog = ProgressDialog.show(this, null,"正在解密...");
-			Toast(Encrypt.FileDel(in,showFilePath.getText().toString()));
+			Dialog progressDialog = ProgressDialog.show(this, null, "正在解密...");
+			Toast(Encrypt.FileDel(in, showFilePath.getText().toString()));
 			progressDialog.hide();
 			showFilePath.setText("");
 		}
