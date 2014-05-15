@@ -15,6 +15,7 @@ import com.dogs.common.Constant;
 
 public class FileListAdapter extends BaseAdapter {
 	private List<Map<String, String>> list;
+	@SuppressWarnings("unused")
 	private Context context;
 	private LayoutInflater iflater;
 
@@ -53,7 +54,16 @@ public class FileListAdapter extends BaseAdapter {
 		}
 		// 设置数据
 		Map<String, String> map = list.get(count);
-		holder.imgView.setText(map.get(Constant.KEY_TYPE));
+		// holder.imgView.setText(map.get(Constant.KEY_TYPE));
+		// 文件夹
+		if (Constant.TYPE_FLODER.equals(map.get(Constant.KEY_TYPE))) {
+			holder.imgView.setBackgroundResource(R.drawable.ic_menu_archive);
+		} else {
+			// 文件
+			holder.imgView
+					.setBackgroundResource(R.drawable.ic_menu_copy_holo_light);
+		}
+
 		holder.msgView.setText(map.get(Constant.KEY_NAME));
 		return view;
 	}

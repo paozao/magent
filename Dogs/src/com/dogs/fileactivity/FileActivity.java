@@ -26,6 +26,7 @@ public class FileActivity extends BaseActivity implements OnItemClickListener {
 	private LinearLayout floderList;
 	private List<Map<String, String>> fileListData;
 	private String newPath = "";
+	@SuppressWarnings("unused")
 	private String oldPath = "";
 
 	@Override
@@ -46,7 +47,7 @@ public class FileActivity extends BaseActivity implements OnItemClickListener {
 	 * @param path
 	 */
 	private void loadFile(String path) {
-		newPath = path+"/";
+		newPath = path + "/";
 		File file = new File(path);
 		File files[] = file.listFiles();
 		fileListData = listMap(files);
@@ -104,6 +105,7 @@ public class FileActivity extends BaseActivity implements OnItemClickListener {
 		Map<String, String> map = fileListData.get(count);
 		String name = map.get(Constant.KEY_NAME);
 		String type = map.get(Constant.KEY_TYPE);
+		loadFloderView("/" + name);
 		if (Constant.TYPE_FLODER.equals(type)) {
 			oldPath = newPath;
 			loadFile(newPath + name);
@@ -115,5 +117,6 @@ public class FileActivity extends BaseActivity implements OnItemClickListener {
 			startActivity(intent);
 			finish();
 		}
+
 	}
 }
